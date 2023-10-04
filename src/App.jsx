@@ -1,19 +1,28 @@
 // export default App;
 import { useRef, useState } from "react";
 import Assistance from "./components/assistance";
+import Earth from "./assets/earth.gif";
 
 const btnCont = [
   {
     id: 1,
     name: "React",
-    text: "react framework",
+    text: "React is a declarative, efficient, and flexible JavaScript library for building user interfaces or UI components",
     top: "1rem",
     left: "0",
   },
+
+  {
+    id: 2,
+    name: "Tailwind CSS",
+    text: "css  framework for styling and positioning elements in our application",
+    top: "0",
+    left: "1rem",
+  },
   {
     id: 3,
-    name: "Tailwind CSS",
-    text: "react framework",
+    name: "next-js",
+    text: "react framework for easy routing and navigation ",
     top: "0",
     left: "1rem",
   },
@@ -21,29 +30,24 @@ const btnCont = [
 
 function App() {
   const [image, setImage] = useState("frontend tools");
-  const [getPosition, setGetPosition] = useState({ top: 300, left: 400 });
-  const assistRef = useRef(null);
+  const [getPosition, setGetPosition] = useState({ top: 350, left: 10 });
 
   const handleClick = (item, index) => {
     const btn = document.querySelectorAll("button")[index];
     const btnRect = btn.getBoundingClientRect();
-    const assistEl = assistRef.current;
-    const assistRect = assistEl.getBoundingClientRect();
 
-    console.log(btnRect);
-    // Calculate the position based on the button's position and size
     const position = {
-      top: btnRect.top - assistRect.height - 10 + window.scrollY,
-      left: btnRect.left + window.scrollX,
+      top: btnRect.bottom,
+      left: btnRect.left,
     };
 
     setGetPosition(position);
-    setImage(item.name);
+    setImage(item.text);
   };
 
   return (
-    <main className="h-screen bg-primary-500 relative">
-      <div className="flex justify-between">
+    <main className="h-screen bg-primary-500 relative  w-[100%] pt-20 text-[20px] font-inter ">
+      <div className="flex justify-around  w-full ">
         {btnCont.map((item, index) => (
           <button
             onClick={() => handleClick(item, index)}
@@ -55,15 +59,12 @@ function App() {
         ))}
       </div>
       <div
-        ref={assistRef}
-        className="absolute bg-[#ab1] rounded-md p-1"
-        style={{
-          top: getPosition.top + "px",
-          left: getPosition.left + "px",
-          transition: "top 0.3s ease, left 0.3s ease",
-        }}
+        className={`px-4 mx-3 absolute top-[${getPosition.top}px] left-[${getPosition.left}px] z-10 text-black p-2.5 rounded-md w-[200px] h-[200px] text-[#ffff]`}
+        style={getPosition}
       >
-        {image}
+        <img src={Earth} alt="" />
+
+        <p className="text-[13px]">{image}</p>
       </div>
     </main>
   );
